@@ -38,7 +38,7 @@
 
 - name: update chrony.conf from template
   template:
-    src: chrony.conf
+    src: chrony.conf.j2
     dest: "{{ chrony_config_path }}"
     owner: root
     group: root
@@ -46,12 +46,23 @@
     backup: yes
   register: chrony_conf
 
+- name: update chrony.keys from template
+  template:
+    src: chrony.keys.j2
+    dest: "{{ chrony_keyfile_path }}"
+    owner: chrony
+    group: chrony
+    mode: 0640
+    backup: yes
+  when: chrony_keys|length > 0
+  register: chrony_keys
+
 - name: ensure chrony service is restarted if necessary
   service:
     name: "{{ item }}"
     state: restarted
   with_items: "{{ chrony_services }}"
-  when: chrony_services|length > 0 and chrony_conf|changed
+  when: chrony_services|length > 0 and (chrony_conf|changed or chrony_keys|changed)
 
 - name: ensure chrony service is started and enabled
   service:

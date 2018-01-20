@@ -9,3 +9,9 @@ chrony_pre_packages: []
 chrony_packages: []
 chrony_package_state: present
 chrony_services: []
+chrony_log: tracking measurements statistics
+
+chrony_peers: []
+chrony_peer_settings: iburst
+
+chrony_keys: []

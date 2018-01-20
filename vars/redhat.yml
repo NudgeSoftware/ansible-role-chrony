@@ -1,7 +1,5 @@
 ---
 chrony_pre_packages:
-  - ca-certificates
-  - epel-release
   - libselinux-python
 
 chrony_packages:

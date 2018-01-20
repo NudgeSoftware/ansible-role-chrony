@@ -2,10 +2,22 @@
 server {{ server }} {{ chrony_server_settings }}
 {% endfor -%}
 
+{% for peer in chrony_peers -%}
+peer {{ peer }} {{ chrony_peer_settings }}
+{% endfor -%}
+
+{% if chrony_refclock is defined -%}
+refclock {{ chrony_refclock }}
+{% endif -%}
+
 keyfile {{ chrony_keyfile_path }}
 
 driftfile {{ chrony_driftfile_path }}
-log tracking measurements statistics
+
+{% if chrony_log|length > 0 -%}
+log {{ chrony_log }}
+{% endif -%}
+
 logdir /var/log/chrony
 maxupdateskew 100.0
 {% if chrony_max_step is defined -%}
