@@ -55,14 +55,14 @@
     mode: 0640
     backup: yes
   when: chrony_keys|length > 0
-  register: chrony_keys
+  register: chrony_key
 
 - name: ensure chrony service is restarted if necessary
   service:
     name: "{{ item }}"
     state: restarted
   with_items: "{{ chrony_services }}"
-  when: chrony_services|length > 0 and (chrony_conf|changed or chrony_keys|changed)
+  when: chrony_services|length > 0 and (chrony_conf|changed or chrony_key|changed)
 
 - name: ensure chrony service is started and enabled
   service:
