@@ -26,14 +26,14 @@
   package:
     name: "{{ item }}"
     state: "{{ chrony_package_state }}"
-  with_items: "{{ chrony_pre_packages }}"
+  loop: "{{ chrony_pre_packages }}"
   when: chrony_pre_packages|length > 0
 
 - name: ensure chrony packages are installed
   package:
     name: "{{ item }}"
     state: "{{ chrony_package_state }}"
-  with_items: "{{ chrony_packages }}"
+  loop: "{{ chrony_packages }}"
   when: chrony_packages|length > 0
 
 - name: update chrony.conf from template
@@ -61,7 +61,7 @@
   service:
     name: "{{ item }}"
     state: restarted
-  with_items: "{{ chrony_services }}"
+  loop: "{{ chrony_services }}"
   when: chrony_services|length > 0 and (chrony_conf|changed or chrony_key|changed)
 
 - name: ensure chrony service is started and enabled
@@ -69,5 +69,5 @@
     name: "{{ item }}"
     enabled: yes
     state: started
-  with_items: "{{ chrony_services }}"
+  loop: "{{ chrony_services }}"
   when: chrony_services|length > 0
