@@ -62,7 +62,7 @@
     name: "{{ item }}"
     state: restarted
   loop: "{{ chrony_services }}"
-  when: chrony_services|length > 0 and (chrony_conf|changed or chrony_key|changed)
+  when: chrony_services|length > 0 and (chrony_conf is changed or chrony_key is changed)
 
 - name: ensure chrony service is started and enabled
   service:
